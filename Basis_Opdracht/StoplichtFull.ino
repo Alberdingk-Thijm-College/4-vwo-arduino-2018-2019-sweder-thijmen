@@ -30,13 +30,66 @@ void setup()
   pinMode(LGreenO, OUTPUT);
   pinMode(LRedVoet, OUTPUT);
   pinMode(LGreenVoet, OUTPUT);
-  pinMode(voetButton, INPUT);
   
   //Voeg interrupts toe
   attachInterrupt(digitalPinToInterrupt(voetButton), voetInterrupt, CHANGE);
   attachInterrupt(digitalPinToInterrupt(busButton), busInterrupt, CHANGE);
   
-  //Zet alle stoplichten op rood, en groen uit
+  //Zet alle rode LEDS aan, en groene LEDS uit (gebruik hiervoor de function 'resetStoplichten')
+  resetStoplichten();
+}
+
+void loop()
+{
+  //Bovenste stoplicht cycle
+    if (busRequest == 1) {
+   busCycle();
+  }
+  resetStoplichten();
+  digitalWrite(LRedB, LOW);
+  digitalWrite(LGreenB, HIGH);
+  delay(1000);
+
+
+  //Rechter stoplicht cycle
+    if (busRequest == 1) {
+   busCycle();
+  }
+  resetStoplichten();
+  digitalWrite(LRedR, LOW);
+  digitalWrite(LGreenR, HIGH);
+  delay(1000);
+
+
+  //Onder stoplicht cycle
+    if (busRequest == 1) {
+   busCycle();
+  }
+  resetStoplichten();
+  digitalWrite(LRedO, LOW);
+  digitalWrite(LGreenO, HIGH);
+  delay(1000);
+
+
+  //Linker stoplicht cycle
+    if (busRequest == 1) {
+   busCycle();
+  }
+  resetStoplichten();
+  digitalWrite(LRedL, LOW);
+  digitalWrite(LGreenL, HIGH);
+  delay(1000);
+
+  
+    //als het variabele walkRequest 1 is, schakel dan over naar de walkCycle
+   if (walkRequest == 1) {
+   walkCycle();
+  }
+}
+
+//Deze function zorgt ervoor dat alle stoplichten ge-reset worden, 
+//hiervoor gebruiken wij een function zodat we deze code kunnen hergebruiken.
+void resetStoplichten() {
   digitalWrite(LRedB, HIGH);
   digitalWrite(LRedR, HIGH);
   digitalWrite(LRedL, HIGH);
@@ -50,78 +103,6 @@ void setup()
   digitalWrite(LGreenVoet, LOW);
 }
 
-void loop()
-{
-  //Activeer de stoplichtcycles
-    if (busRequest == 1) {
-   busCycle();
-  }
-  
-  stoplichtBoven();
-  delay(1000);
-  
-    if (busRequest == 1) {
-   busCycle();
-  }
-  
-  stoplichtRechts();
-  delay(1000);
-  
-    if (busRequest == 1) {
-   busCycle();
-  }
-  
-  stoplichtOnder();
-  delay(1000);
-  
-    if (busRequest == 1) {
-   busCycle();
-  }
-  
-  stoplichtLinks();
-  delay(1000);
-  
-    if (busRequest == 1) {
-   busCycle();
-  }
-  
-    //als het variabele walkRequest 1 is, schakel dan over naar de walkCycle
-   if (walkRequest == 1) {
-   walkCycle();
-  }
-}
-
-void stoplichtBoven() {
-    //Zet alle stoplichten op rood, en zet bovenste op groen
-  digitalWrite(LRedB, LOW);
-  digitalWrite(LGreenB, HIGH);
-  digitalWrite(LRedL, HIGH);
-  digitalWrite(LGreenL, LOW);
-}
-
-void stoplichtRechts() {
-    //Zet Rechter stoplicht op groen
-  digitalWrite(LRedB, HIGH);
-  digitalWrite(LGreenB, LOW);
-  digitalWrite(LRedR, LOW);
-  digitalWrite(LGreenR, HIGH);
-}
-
-void stoplichtOnder() {
-    //Zet Onderste stoplicht op groen
-  digitalWrite(LRedR, HIGH);
-  digitalWrite(LGreenR, LOW);
-  digitalWrite(LRedO, LOW);
-  digitalWrite(LGreenO, HIGH);
-}
-
-void stoplichtLinks() {
-    //Zet Linker stoplicht op groen
-  digitalWrite(LRedO, HIGH);
-  digitalWrite(LGreenO, LOW);
-  digitalWrite(LRedL, LOW);
-  digitalWrite(LGreenL, HIGH);
-}
 
 
 //WalkCycle is het voetgangersstoplicht die aan en uit gaat met delays er tussen.
@@ -140,14 +121,7 @@ void walkCycle() {
 
 //busCycle is het stoplicht voor de bus, het onderste stoplicht wordt hiervoor gebruikt
 void busCycle() {
-  digitalWrite(LRedB, HIGH);
-  digitalWrite(LRedR, HIGH);
-  digitalWrite(LRedL, HIGH);
-  digitalWrite(LRedO, HIGH);
-  digitalWrite(LGreenB, LOW);
-  digitalWrite(LGreenR, LOW);
-  digitalWrite(LGreenL, LOW);
-  digitalWrite(LGreenO, LOW);
+    setup();
     delay(1000);
     digitalWrite(LRedO, LOW);
     digitalWrite(LGreenO, HIGH);
@@ -159,14 +133,14 @@ void busCycle() {
 }
 
 
+
+
 //Interrupt voor voetgangers, kijkt of er op de knop "voetButton" geklikt word
 void voetInterrupt() {
-  voetButtonState = digitalRead(voetButton);
   walkRequest = 1;
 }
 
 //Interrupt voor de buslijn, kijkt of er op de knop "busButton" geklikt word
 void busInterrupt() {
-  busButtonState = digitalRead(busButton);
   busRequest = 1;
 }
