@@ -121,7 +121,7 @@ void walkCycle() {
 
 //busCycle is het stoplicht voor de bus, het onderste stoplicht wordt hiervoor gebruikt
 void busCycle() {
-    setup();
+    resetStoplichten();
     delay(1000);
     digitalWrite(LRedO, LOW);
     digitalWrite(LGreenO, HIGH);
