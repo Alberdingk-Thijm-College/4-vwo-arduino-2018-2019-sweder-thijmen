@@ -12,8 +12,6 @@ int LGreenVoet = 4;
 int voetButton = 3;
 int busButton = 2;
 
-volatile int voetButtonState = 0;
-volatile int busButtonState = 0;
 int walkRequest = 0;
 int busRequest = 0;
 
@@ -31,7 +29,7 @@ void setup()
   pinMode(LRedVoet, OUTPUT);
   pinMode(LGreenVoet, OUTPUT);
   
-  //Voeg interrupts toe
+  //Voeg interrupts toe, deze schakel ik direct aan de pins, zodat de interrupt pas activeert als de knop word ingedrukt, hierdoor hoeft dus geen digitalRead commando gebruikt te worden.
   attachInterrupt(digitalPinToInterrupt(voetButton), voetInterrupt, CHANGE);
   attachInterrupt(digitalPinToInterrupt(busButton), busInterrupt, CHANGE);
   
@@ -39,6 +37,9 @@ void setup()
   resetStoplichten();
 }
 
+
+//De loop bezit alle stoplicht cycles, elk cycle bestaat uit een if-else commando. Deze checkt of de buslijn knop ingedrukt is.
+//Als de buslijn knop ingedrukt is, word er overgeschakeld naar de busCycle, als dit niet zo is dan gaat de loop door.
 void loop()
 {
   //Bovenste stoplicht cycle
@@ -85,7 +86,7 @@ void loop()
   delay(2000);
 
   
-    //als het variabele walkRequest 1 is, schakel dan over naar de walkCycle
+    //als het variabele walkRequest 1 is, schakel dan over naar de walkCycle, als het niet 1 is, ga dan door met de loop
    if (walkRequest == 1) {
    walkCycle();
   }
