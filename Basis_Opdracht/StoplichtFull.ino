@@ -46,9 +46,10 @@ void loop()
    busCycle();
   }
   resetStoplichten();
+  delay(1000);
   digitalWrite(LRedB, LOW);
   digitalWrite(LGreenB, HIGH);
-  delay(1000);
+  delay(2000);
 
 
   //Rechter stoplicht cycle
@@ -56,9 +57,10 @@ void loop()
    busCycle();
   }
   resetStoplichten();
+  delay(1000);
   digitalWrite(LRedR, LOW);
   digitalWrite(LGreenR, HIGH);
-  delay(1000);
+  delay(2000);
 
 
   //Onder stoplicht cycle
@@ -66,9 +68,10 @@ void loop()
    busCycle();
   }
   resetStoplichten();
+  delay(1000);
   digitalWrite(LRedO, LOW);
   digitalWrite(LGreenO, HIGH);
-  delay(1000);
+  delay(2000);
 
 
   //Linker stoplicht cycle
@@ -76,9 +79,10 @@ void loop()
    busCycle();
   }
   resetStoplichten();
+  delay(1000);
   digitalWrite(LRedL, LOW);
   digitalWrite(LGreenL, HIGH);
-  delay(1000);
+  delay(2000);
 
   
     //als het variabele walkRequest 1 is, schakel dan over naar de walkCycle
