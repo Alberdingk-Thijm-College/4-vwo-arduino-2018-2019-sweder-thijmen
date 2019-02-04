@@ -112,8 +112,7 @@ void resetStoplichten() {
 
 //WalkCycle is het voetgangersstoplicht die aan en uit gaat met delays er tussen.
 void walkCycle() {
-    digitalWrite(LRedL, HIGH);
-    digitalWrite(LGreenL, LOW);
+    resetStoplichten();
     delay(1000);
     digitalWrite(LGreenVoet, HIGH);
     digitalWrite(LRedVoet, LOW);
